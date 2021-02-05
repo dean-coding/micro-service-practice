@@ -152,6 +152,9 @@
                         3.<goal>push</goal> 开启自动推送远程
                      -->
                     <skip>true</skip>
+                    <forceCreation>true</forceCreation>
+                    <!-- 覆盖tag -->
+                    <force>true</force>
                     <repository>${project.artifactId}</repository>
                     <dockerfile>${project.basedir}/src/main/docker/Dockerfile</dockerfile>
                     <!-- docker的tag为项目版本号、默认latest -->
