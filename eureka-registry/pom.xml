@@ -32,14 +32,8 @@
                 <artifactId>dockerfile-maven-plugin</artifactId>
                 <version>1.4.13</version>
                 <configuration>
-                    <repository>${project.artifactId}</repository>
-                    <imageName>${project.artifactId}:v1</imageName>
-                    <!-- 如果需要在生成镜像时推送到远程库，pushImage设为true -->
-                    <pushImage>true</pushImage>
-                    <imageTags>
-                        <!-- docker的tag为项目版本号、latest -->
-                        <imageTag>${project.version}</imageTag>
-                    </imageTags>
+                    <repository>${project.artifactId}:v1</repository>
+                    <!--<imageName>${project.artifactId}:v1</imageName>-->
                     <buildArgs>
                         <JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
                     </buildArgs>
