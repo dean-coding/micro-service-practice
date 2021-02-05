@@ -26,7 +26,7 @@ spring:
           predicates:
             - Path=/resource/**
   redis:
-    host: 127.0.0.1
+    host: ${REDIS_HOST:127.0.0.1}
     port: 6379
     database: 12
     lettuce:
@@ -41,7 +41,7 @@ eureka:
   client:
     registry-fetch-interval-seconds: 5 # 客户端拉取服务注册信息间隔（缺省为30s） 对于api-gateway，如果要迅速获取服务注册状态，可以缩小该值，比如5秒。
     serviceUrl:
-      defaultZone: http://127.0.0.1:8761/eureka/
+      defaultZone: http://${REGISTY_HOST:127.0.0.1}:8761/eureka/
   instance:
     hostname: gateway
     preferIpAddress: true
