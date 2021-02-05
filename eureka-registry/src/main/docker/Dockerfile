@@ -1,5 +1,4 @@
 FROM openjdk:8-jdk-alpine
-MAINTAINER DeanKano <1461840384@qq.com>
 VOLUME /tmp
 ARG JAR_FILE
 ADD ${JAR_FILE} app.jar

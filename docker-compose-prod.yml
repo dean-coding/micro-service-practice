@@ -6,7 +6,7 @@ services:
     image: eureka-registry:1.0.1
     container_name: eureka-registry
     #容器down掉后，会自动重启
-    restart: always
+#    restart: always
     #挂载一个目录,格式: 宿主机目录:容器内目录
     #    volumes:
     #      - /var/hg/upload-dir:/upload-dir
