@@ -63,7 +63,8 @@
                     <username>langlingqi</username>
                     <!--   docker私有仓库密码，已登录则不需要   -->
                     <password>719738494@</password>
-                    <repository>${project.artifactId}</repository>
+                    <!-- 本地直接用：${project.artifactId} -->
+                    <repository>https://hub.docker.com/repository/docker/langlingqi/rangers-docker-repo/${project.artifactId}</repository>
                     <dockerfile>${project.basedir}/src/main/docker/Dockerfile</dockerfile>
                     <!-- docker的tag为项目版本号、默认latest -->
                     <tag>${project.version}</tag>
