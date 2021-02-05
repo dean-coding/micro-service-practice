@@ -6,14 +6,10 @@
         <groupId>com.dean.practice</groupId>
         <artifactId>micro-service-practice</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath/> <!-- lookup parent from repository -->
     </parent>
+
     <artifactId>gateway-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>gateway-service</name>
-
-    <packaging>jar</packaging>
-    <description>Demo project for Spring Boot</description>
 
     <dependencies>
         <dependency>

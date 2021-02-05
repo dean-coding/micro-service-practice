@@ -6,13 +6,10 @@
         <groupId>com.dean.practice</groupId>
         <artifactId>micro-service-practice</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath/>
     </parent>
 
     <artifactId>consumer-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>consumer-service</name>
-    <packaging>jar</packaging>
 
     <dependencies>
 
