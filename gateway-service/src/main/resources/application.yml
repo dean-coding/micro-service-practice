@@ -1,0 +1,60 @@
+server:
+  port: 9999
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    ## 路由配置方式
+    gateway:
+      routes:
+        - id: resource
+          uri: lb://producer-service
+          filters:
+            - StripPrefix=1
+            - name: Customer
+              args:
+                enabled: true
+                excludePaths: /webjars/**,/swagger-ui.html/**,/swagger-ui/*,/swagger-resources/**,/v2/api-docs,/v3/api-docs
+            ## 支持重定向配置
+#            - RewritePath=/foo/(?<segment>.*), /$\{segment}
+            ## redis reactive rate limit
+            - name: RequestRateLimiter
+              args:
+                key-resolver: '#{@hostAddrKeyResolver}'
+                redis-rate-limiter.replenishRate: 1
+                redis-rate-limiter.burstCapacity: 3
+          predicates:
+            - Path=/resource/**
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    database: 12
+    lettuce:
+      shutdown-timeout: 500ms
+    jedis:
+      pool:
+        min-idle: 5
+        max-idle: 20
+        max-wait: 1000
+
+eureka:
+  client:
+    registry-fetch-interval-seconds: 5 # 客户端拉取服务注册信息间隔（缺省为30s） 对于api-gateway，如果要迅速获取服务注册状态，可以缩小该值，比如5秒。
+    serviceUrl:
+      defaultZone: http://127.0.0.1:8761/eureka/
+  instance:
+    hostname: gateway
+    preferIpAddress: true
+    lease-renewal-interval-in-seconds: 5      # 心跳时间(client发送到server端)，即服务续约间隔时间（缺省为30s）
+    lease-expiration-duration-in-seconds: 15  # 发呆时间(server判断移除client的时长)，即服务续约到期时间（缺省为90s）
+
+## 启用 {@link org.springframework.cloud.gateway.actuate.GatewayControllerEndpoint}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: gateway,env
+auth:
+  filter:
+    excludePaths:
+      - /resource/**
