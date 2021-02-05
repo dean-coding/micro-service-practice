@@ -5,11 +5,11 @@
     <parent>
         <groupId>com.dean.practice</groupId>
         <artifactId>micro-service-practice</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>1.0.1</version>
     </parent>
 
     <artifactId>consumer-service</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>${whole.project.version}</version>
 
     <dependencies>
 
@@ -42,17 +42,7 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.21</version>
         </dependency>
-
-
     </dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>
