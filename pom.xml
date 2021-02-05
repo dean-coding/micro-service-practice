@@ -64,6 +64,11 @@
             <version>1.18.2</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
 
         <!--swagger-->
         <dependency>
@@ -108,22 +113,6 @@
                     <updateReleaseInfo>true</updateReleaseInfo>
                 </configuration>
             </plugin>
-
-            <!-- 打包source源码 -->
-            <!--<plugin>-->
-            <!--<groupId>org.apache.META-INF.plugins</groupId>-->
-            <!--<artifactId>META-INF-source-plugin</artifactId>-->
-            <!--<version>${META-INF-source.version}</version>-->
-            <!--<executions>-->
-            <!--<execution>-->
-            <!--<id>attach-sources</id>-->
-            <!--<goals>-->
-            <!--<goal>jar</goal>-->
-            <!--</goals>-->
-            <!--</execution>-->
-            <!--</executions>-->
-            <!--</plugin>-->
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -134,13 +123,17 @@
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
-            <!-- dockerfile:build的创建方式 -->
+            <!-- dockerfile:build的创建方式
+                1 dockerfile-maven-plugin的目标就是将maven的打包过程和docker的build过程结合在一起
+                2 @see https://github.com/spotify/dockerfile-maven
+             -->
             <plugin>
                 <groupId>com.spotify</groupId>
                 <artifactId>dockerfile-maven-plugin</artifactId>
                 <version>1.4.13</version>
                 <configuration>
                     <repository>${project.artifactId}</repository>
+                    <dockerfile>${project.basedir}/src/main/docker/Dockerfile</dockerfile>
                     <!-- docker的tag为项目版本号、默认latest -->
                     <tag>${project.version}</tag>
                     <buildArgs>
