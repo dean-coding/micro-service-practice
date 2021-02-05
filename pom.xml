@@ -138,7 +138,7 @@
                         <phase>package</phase>
                         <goals>
                             <!--如果package时不想用docker打包,就注释掉这个goal-->
-                            <goal>build</goal>
+                            <!--<goal>build</goal>-->
                             <goal>push</goal>
                         </goals>
                     </execution>
