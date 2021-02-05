@@ -32,7 +32,6 @@
                 <artifactId>dockerfile-maven-plugin</artifactId>
                 <version>1.4.13</version>
                 <configuration>
-                    <dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
                     <repository>${project.artifactId}</repository>
                     <imageName>${project.artifactId}:v1</imageName>
                     <!-- 如果需要在生成镜像时推送到远程库，pushImage设为true -->
