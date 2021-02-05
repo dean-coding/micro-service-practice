@@ -3,7 +3,7 @@ version: '3.1'
 services:
   ## 注册中心
   eureka-registry:
-    image: eureka-registry:v1
+    image: eureka-registry:1.0.1
     container_name: eureka-registry
     #容器down掉后，会自动重启
     restart: always
