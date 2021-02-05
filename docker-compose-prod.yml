@@ -19,47 +19,47 @@ services:
       SPRING_PROFILES_ACTIVE: prod
     ports:
       - "8761:8080"
-#
-#  ## 网关服务
-#  gateway-service:
-#    image: gateway-service:v1
-#    container_name: gateway-service
-#    restart: always
-#    environment:
-#      TZ: Asia/Shanghai
-#      SPRING_PROFILES_ACTIVE: prod
-#    ports:
-#      - "9999:8080"
-#    depends_on:
-#      - eureka-registry
-#    links:
-#      - eureka-registry:eureka-registry
-#
-#    ## 生产者资源服务
-#    producer-service:
-#      image: producer-service:v1
-#      container_name: producer-service
-#      restart: always
-#      environment:
-#        TZ: Asia/Shanghai
-#        SPRING_PROFILES_ACTIVE: prod
-#      ports:
-#        - "9090:8080"
-#      depends_on:
-#        - eureka-registry
-#      links:
-#        - eureka-registry:eureka-registry
-#    ## 消费者资源服务
-#    consumer-service:
-#      image: consumer-service:v1
-#      container_name: consumer-service
-#      restart: always
-#      environment:
-#        TZ: Asia/Shanghai
-#        SPRING_PROFILES_ACTIVE: prod
-#      ports:
-#        - "9091:8080"
-#      depends_on:
-#        - eureka-registry
-#      links:
-#        - eureka-registry:eureka-registry
+
+  ## 网关服务
+  gateway-service:
+    image: gateway-service:1.0.1
+    container_name: gateway-service
+    restart: always
+    environment:
+      TZ: Asia/Shanghai
+      SPRING_PROFILES_ACTIVE: prod
+    ports:
+      - "9999:8080"
+    depends_on:
+      - eureka-registry
+    links:
+      - eureka-registry:eureka-registry
+
+    ## 生产者资源服务
+    producer-service:
+      image: producer-service:1.0.1
+      container_name: producer-service
+      restart: always
+      environment:
+        TZ: Asia/Shanghai
+        SPRING_PROFILES_ACTIVE: prod
+      ports:
+        - "9090:8080"
+      depends_on:
+        - eureka-registry
+      links:
+        - eureka-registry:eureka-registry
+    ## 消费者资源服务
+    consumer-service:
+      image: consumer-service:1.0.1
+      container_name: consumer-service
+      restart: always
+      environment:
+        TZ: Asia/Shanghai
+        SPRING_PROFILES_ACTIVE: prod
+      ports:
+        - "9091:8080"
+      depends_on:
+        - eureka-registry
+      links:
+        - eureka-registry:eureka-registry
