@@ -5,7 +5,7 @@
 
     <groupId>com.dean.practice</groupId>
     <artifactId>micro-service-practice</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <packaging>pom</packaging>
 
     <parent>
@@ -132,7 +132,22 @@
                 <groupId>com.spotify</groupId>
                 <artifactId>dockerfile-maven-plugin</artifactId>
                 <version>1.4.13</version>
+                <executions>
+                    <execution>
+                        <id>default</id>
+                        <phase>package</phase>
+                        <goals>
+                            <!--如果package时不想用docker打包,就注释掉这个goal-->
+                            <goal>build</goal>
+                            <goal>push</goal>
+                        </goals>
+                    </execution>
+                </executions>
                 <configuration>
+                    <!--   docker私有仓库用户名,已登录则不需要 -->
+                    <username>langlingqi</username>
+                    <!--   docker私有仓库密码，已登录则不需要   -->
+                    <password>719738494@</password>
                     <repository>${project.artifactId}</repository>
                     <dockerfile>${project.basedir}/src/main/docker/Dockerfile</dockerfile>
                     <!-- docker的tag为项目版本号、默认latest -->

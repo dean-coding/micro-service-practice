@@ -10,7 +10,7 @@
     </parent>
 
     <artifactId>eureka-registry</artifactId>
-    <version>${whole.project.version}</version>
+    <version>1.0.1</version>
 
     <dependencies>
         <dependency>
