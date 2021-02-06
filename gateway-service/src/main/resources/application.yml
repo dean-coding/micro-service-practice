@@ -58,3 +58,5 @@ auth:
   filter:
     excludePaths:
       - /resource/**
+logging:
+  file: logs/${spring.application.name}/info.log
