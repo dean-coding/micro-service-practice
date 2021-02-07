@@ -17,3 +17,8 @@ eureka:
 
 logging:
   file: logs/${spring.application.name}/info.log
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

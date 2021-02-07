@@ -53,7 +53,8 @@ management:
   endpoints:
     web:
       exposure:
-        include: gateway,env
+        # gateway,env
+        include: "*"
 auth:
   filter:
     excludePaths:
