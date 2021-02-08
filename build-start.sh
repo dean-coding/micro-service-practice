@@ -33,7 +33,7 @@ echo "package and build docker image succeed！！！"
 echo "build and up service container [start]"
 if [ -z "${service_name}" ];
     then
-        docker-compose -f docker-compose-prod.yml up --force-recreate
+        docker-compose -f docker-compose-prod.yml up --force-recreate -d
     else
         docker-compose -f docker-compose-prod.yml up --force-recreate -d ${service_name}
 fi
