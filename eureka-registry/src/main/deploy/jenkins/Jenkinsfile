@@ -16,31 +16,33 @@ pipeline {
         sh "'${mvnHome}/bin/mvn' clean package -Dmaven.test.skip -pl eureka-registry -am"
       }
       stage('构建镜像') {
-        sh "'${mvnHome}/bin/mvn' -pl eureka-registry -am dockerfile:build"
+        steps{
+            sh "'${mvnHome}/bin/mvn' -pl eureka-registry -am dockerfile:build"
+        }
+
+     post {
+            always {
+                echo 'One way or another, I have finished'
+                deleteDir() /* clean up our workspace */
+            }
+            success {
+            	 slackSend channel: '#ops-room',
+                 color: 'good',
+                 message: "The pipeline ${currentBuild.fullDisplayName} completed successfully."
+            }
+            unstable {
+                echo 'I am unstable :/'
+            }
+            failure {
+                echo 'I failed :('
+            }
+            changed {
+                echo 'Things were different before...'
+            }
+       }
       }
       stage('测试') {
        echo "Hello Dean"
       }
-   }
-
-   post {
-        always {
-            echo 'One way or another, I have finished'
-            deleteDir() /* clean up our workspace */
-        }
-        success {
-        	 slackSend channel: '#ops-room',
-             color: 'good',
-             message: "The pipeline ${currentBuild.fullDisplayName} completed successfully."
-        }
-        unstable {
-            echo 'I am unstable :/'
-        }
-        failure {
-            echo 'I failed :('
-        }
-        changed {
-            echo 'Things were different before...'
-        }
    }
 }
