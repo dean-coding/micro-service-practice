@@ -16,7 +16,7 @@ pipeline {
         sh "'${mvnHome}/bin/mvn' clean package -Dmaven.test.skip -pl eureka-registry -am"
       }
       stage('构建镜像') {
-        steps{
+        steps {
             sh "'${mvnHome}/bin/mvn' -pl eureka-registry -am dockerfile:build"
         }
       }
