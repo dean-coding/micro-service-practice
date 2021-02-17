@@ -19,23 +19,6 @@ pipeline {
         steps{
             sh "'${mvnHome}/bin/mvn' -pl eureka-registry -am dockerfile:build"
         }
-
-     post {
-            success {
-            	 slackSend channel: '#ops-room',
-                 color: 'good',
-                 message: "The pipeline ${currentBuild.fullDisplayName} completed successfully."
-            }
-            unstable {
-                echo 'I am unstable :/'
-            }
-            failure {
-                echo 'I failed :('
-            }
-            changed {
-                echo 'Things were different before...'
-            }
-       }
       }
       stage('测试') {
        echo "Hello Dean"
