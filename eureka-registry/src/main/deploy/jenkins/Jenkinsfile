@@ -12,7 +12,7 @@ node {
       // ** NOTE: This 'M3' Maven tool must be configured in the global configuration.
       mvnHome = '/usr/share/maven'
       dockerComposeHome = '/usr/local'
-      echo '服务名称： ${params.service_name}--params.service_name'
+      echo '服务名称： ${params.service_name}--env.service_name'
       service_name = 'eureka-registry'
    }
    stage('打包编译') {
@@ -31,6 +31,6 @@ node {
      echo "prune none images [over]"
      sh "sleep 10s"
      echo "build and up service container [over]"
-     sh " ${dockerComposeHome}/bin/docker-compose' -f docker-compose-prod.yml ps"
+     sh "'${dockerComposeHome}/bin/docker-compose' -f docker-compose-prod.yml ps"
    }
 }
