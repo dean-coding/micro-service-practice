@@ -139,11 +139,6 @@
                     <execution>
                         <id>default</id>
                         <phase>package</phase>
-                        <goals>
-                            <!--如果package时不想用docker打包,就注释掉这个goal-->
-                            <goal>build</goal>
-                            <!--<goal>push</goal>-->
-                        </goals>
                     </execution>
                 </executions>
                 <configuration>
@@ -159,7 +154,7 @@
                     <!-- 覆盖tag -->
                     <force>true</force>
                     <repository>${project.artifactId}</repository>
-                    <dockerfile>${project.basedir}/src/main/docker/Dockerfile</dockerfile>
+                    <dockerfile>${project.basedir}/src/main/deploy/docker/Dockerfile</dockerfile>
                     <!-- docker的tag为项目版本号、默认latest -->
                     <tag>${project.version}</tag>
                     <buildArgs>
