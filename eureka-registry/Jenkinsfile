@@ -1,0 +1,23 @@
+node {
+   def mvnHome
+   environment {
+    EXE_DEV = "dev"
+   }
+   stage('获取源码') {
+     // get source code from git* repo
+      checkout([$class: 'GitSCM', branches: [[name: params.BRANCH]], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/dean-coding/micro-service-practice.git']]])
+      // Get the Maven tool.
+      // ** NOTE: This 'M3' Maven tool must be configured in the global configuration.
+      mvnHome = '/usr/share/maven'
+   }
+   stage('打包编译') {
+     // Run the maven build
+     sh "'${mvnHome}/bin/mvn' clean package -Dmaven.test.skip -pl eureka-registry -am"
+   }
+   stage('构建镜像') {
+     sh "'${mvnHome}/bin/mvn' -pl eureka-registry -am dockerfile:build"
+   }
+   stage('测试') {
+    echo "Hello Dean"
+   }
+}

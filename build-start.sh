@@ -18,9 +18,11 @@ done
 
 if [ -z "${service_name}" ];
 then
-    mvn clean package -Dmaven.test.skip=true -P auto-build-images,!snapshots,!public
+    mvn clean package -Dmaven.test.skip=true
+    mvn dockerfile:build
 else
-    mvn clean package -Dmaven.test.skip=true -pl ${service_name} -am -P auto-build-images,!snapshots,!public
+    mvn clean package -Dmaven.test.skip=true -pl ${service_name} -am
+    mvn -pl ${service_name} -am dockerfile:build
 fi
 
 if [[ $? != "0" ]]

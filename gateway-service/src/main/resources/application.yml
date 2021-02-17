@@ -7,7 +7,7 @@ spring:
     ## 路由配置方式
     gateway:
       routes:
-        - id: resource
+        - id: producer
           uri: lb://producer-service
           filters:
             - StripPrefix=1
@@ -15,28 +15,14 @@ spring:
               args:
                 enabled: true
                 excludePaths: /webjars/**,/swagger-ui.html/**,/swagger-ui/*,/swagger-resources/**,/v2/api-docs,/v3/api-docs
-            ## 支持重定向配置
-#            - RewritePath=/foo/(?<segment>.*), /$\{segment}
-            ## redis reactive rate limit
-            - name: RequestRateLimiter
-              args:
-                key-resolver: '#{@hostAddrKeyResolver}'
-                redis-rate-limiter.replenishRate: 1
-                redis-rate-limiter.burstCapacity: 3
           predicates:
-            - Path=/resource/**
-  redis:
-    host: ${REDIS_HOST:127.0.0.1}
-    port: 6379
-    database: 12
-    lettuce:
-      shutdown-timeout: 500ms
-    jedis:
-      pool:
-        min-idle: 5
-        max-idle: 20
-        max-wait: 1000
-
+            - Path=/producer/**
+        - id: consumer
+          uri: lb://consumer-service
+          filters:
+            - StripPrefix=1
+          predicates:
+            - Path=/consumer/**
 eureka:
   client:
     registry-fetch-interval-seconds: 5 # 客户端拉取服务注册信息间隔（缺省为30s） 对于api-gateway，如果要迅速获取服务注册状态，可以缩小该值，比如5秒。
@@ -58,6 +44,7 @@ management:
 auth:
   filter:
     excludePaths:
-      - /resource/**
+      - /consumer/**
+      - /producer/**
 logging:
   file: logs/${spring.application.name}/info.log
