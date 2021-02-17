@@ -1,6 +1,7 @@
 node {
    def mvnHome
    def service_name
+   def dockerComposeHome
    environment {
     EXE_DEV = "dev"
    }
@@ -10,6 +11,7 @@ node {
       // Get the Maven tool.
       // ** NOTE: This 'M3' Maven tool must be configured in the global configuration.
       mvnHome = '/usr/share/maven'
+      dockerComposeHome = '/usr/local'
       service_name = 'eureka-registry'
    }
    stage('打包编译') {
@@ -20,6 +22,12 @@ node {
      sh "'${mvnHome}/bin/mvn' -pl ${service_name} -am dockerfile:build"
    }
    stage('构建容器') {
-     sh "docker-compose -f docker-compose-prod.yml up --force-recreate -d ${service_name}"
+     sh "'${dockerComposeHome}/bin/docker-compose' -f docker-compose-prod.yml up --force-recreate -d ${service_name}"
+     echo "prune none images [start]"
+     sh " '/usr/bin/docker' image prune -f"
+     echo "prune none images [over]"
+     sh "sleep 10s"
+     echo "build and up service container [over]"
+     sh " ${dockerComposeHome}/bin/docker-compose' -f docker-compose-prod.yml ps"
    }
 }
