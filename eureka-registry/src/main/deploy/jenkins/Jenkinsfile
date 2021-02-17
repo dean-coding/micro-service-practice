@@ -22,6 +22,7 @@ node {
      sh "'${mvnHome}/bin/mvn' -pl ${service_name} -am dockerfile:build"
    }
    stage('构建容器') {
+     sh "'${dockerComposeHome}/bin/docker-compose' -f docker-compose-prod.yml down ${service_name}"
      sh "'${dockerComposeHome}/bin/docker-compose' -f docker-compose-prod.yml up --force-recreate -d ${service_name}"
      echo "prune none images [start]"
      sh " '/usr/bin/docker' image prune -f"
