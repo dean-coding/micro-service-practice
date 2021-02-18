@@ -2,6 +2,7 @@ node {
    def mvnHome
    def service_name
    def dockerComposeHome
+   def dockerHome
    environment {
     EXE_DEV = "dev"
    }
@@ -12,6 +13,7 @@ node {
       // ** NOTE: This 'M3' Maven tool must be configured in the global configuration.
       mvnHome = '/usr/share/maven'
       dockerComposeHome = '/usr/local'
+      dockerHome = '/usr/bin'
       service_name = params.service_name
    }
    stage('打包编译') {
@@ -22,11 +24,12 @@ node {
      sh "'${mvnHome}/bin/mvn' -pl ${service_name} -am dockerfile:build"
    }
    stage('构建容器') {
-     sh "'${dockerComposeHome}/bin/docker-compose' -f docker-compose-prod.yml stop ${service_name}"
-     sh "'${dockerComposeHome}/bin/docker-compose' -f docker-compose-prod.yml rm -f ${service_name}"
+     sh "'${dockerHome}/docker' stop ${service_name}"
+     sh "sleep 3s"
+     sh "'${dockerHome}/docker' rm -f ${service_name}"
      sh "'${dockerComposeHome}/bin/docker-compose' -f docker-compose-prod.yml up --no-deps --force-recreate -d ${service_name}"
      echo "prune none images [start]"
-     sh " '/usr/bin/docker' image prune -f"
+     sh "'${dockerHome}/docker' image prune -f"
      echo "prune none images [over]"
      sh "sleep 10s"
      echo "build and up service container [over]"
