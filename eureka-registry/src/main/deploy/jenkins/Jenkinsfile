@@ -1,49 +1,41 @@
+node {
+   def mvnHome
+   def service_name
+   def dockerComposeHome
+   def dockerHome
+   environment {
+    EXE_DEV = "dev"
+   }
+   stage('获取源码') {
+     // get source code from git* repo
+      checkout([$class: 'GitSCM', branches: [[name: params.BRANCH]], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/dean-coding/micro-service-practice.git']]])
+      // Get the Maven tool.
+      // ** NOTE: This 'M3' Maven tool must be configured in the global configuration.
+      mvnHome = '/usr/share/maven'
+      dockerComposeHome = '/usr/local'
+      dockerHome = '/usr/bin'
+      service_name = params.service_name
+   }
+   stage('打包编译') {
+     // Run the maven build
+     sh "'${mvnHome}/bin/mvn' clean package -Dmaven.test.skip -pl ${service_name} -am"
+   }
+   stage('构建镜像') {
+     sh "'${mvnHome}/bin/mvn' -pl ${service_name} -am dockerfile:build"
+   }
+   stage('构建容器') {
+     sh "'${dockerHome}/docker' stop ${service_name}"
+     sh "'${dockerHome}/docker' rm -f ${service_name}"
 
-// jenkinsfile config
-pipeline {
-    // 没有 agent 指令的话, 声明式流水线不仅无效, 它也不可能完成任何工作
-    agent any
-     def mvnHome
-       def service_name
-       def dockerComposeHome
-       def dockerHome
-        // 使用全局定义工具
-        tools {
-            maven 'apache-maven-3.6.0'
-            jdk 'java-1.8-openjdk'
-        }
-        stages {
-            stage('获取源码') {
-                // get source code from git* repo
-                 checkout([$class: 'GitSCM', branches: [[name: params.BRANCH]], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/dean-coding/micro-service-practice.git']]])
-                 mvnHome = '/usr/share/maven'
-                  dockerComposeHome = '/usr/local'
-                  dockerHome = '/usr/bin'
-                  service_name = params.service_name
-              }
-              stage('打包编译') {
-                // Run the maven build
-                sh "'${mvnHome}/bin/mvn' clean package -Dmaven.test.skip -pl ${service_name} -am"
-              }
-              stage('构建镜像') {
-                sh "'${mvnHome}/bin/mvn' -pl ${service_name} -am dockerfile:build"
-              }
-              stage('构建容器') {
-                steps {
-                    sh "'${dockerHome}/docker' stop ${service_name}"
-                    sh "'${dockerHome}/docker' rm -f ${service_name}"
-                     withEnv(['JENKINS_NODE_COOKIE=dontkillme']) {
-                        sh """
-                             '${dockerComposeHome}/bin/docker-compose' -f docker-compose-prod.yml up -d --no-deps ${service_name}
-                        """
-                    }
-                    echo "prune none images [start]"
-                    sh "'${dockerHome}/docker' image prune -f"
-                    echo "prune none images [over]"
-                    echo "build and up service container [over]"
-                    sh "'${dockerComposeHome}/bin/docker-compose' -f docker-compose-prod.yml ps"
-                }
-              }
-        }
+    withEnv(['JENKINS_NODE_COOKIE=dontkillme']) {
+        sh """
+           '${dockerComposeHome}/bin/docker-compose' -f docker-compose-prod.yml up -d --no-deps ${service_name}
+        """
+    }
+     echo "prune none images [start]"
+     sh "'${dockerHome}/docker' image prune -f"
+     echo "prune none images [over]"
+     echo "build and up service container [over]"
+     sh "'${dockerComposeHome}/bin/docker-compose' -f docker-compose-prod.yml ps"
+   }
 }
-
