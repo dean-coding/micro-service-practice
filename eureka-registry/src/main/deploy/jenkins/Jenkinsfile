@@ -23,6 +23,7 @@ node {
    }
    stage('构建容器') {
      sh "'${dockerComposeHome}/bin/docker-compose' -f docker-compose-prod.yml stop ${service_name}"
+     sh "sleep 3s"
      sh "'${dockerComposeHome}/bin/docker-compose' -f docker-compose-prod.yml rm -f ${service_name}"
      sh "'${dockerComposeHome}/bin/docker-compose' -f docker-compose-prod.yml up --no-deps --force-recreate -d ${service_name}"
      echo "prune none images [start]"
