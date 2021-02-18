@@ -14,16 +14,16 @@ do
         ;;
     esac
 done
-dockerComposeHome='/usr/local'
+DOCKER_COMPOSE_HOME='/usr/local'
 
 echo "build and up service container [start]"
 if [ -z "${service_name}" ];
     then
-        ${dockerComposeHome}/docker-compose -f docker-compose-prod.yml up --force-recreate -d
+        ${DOCKER_COMPOSE_HOME}/bin/docker-compose -f docker-compose-prod.yml up --force-recreate -d
     else
         docker stop ${service_name}
         docker rm -f ${service_name}
-        ${dockerComposeHome}/docker-compose -f docker-compose-prod.yml up --force-recreate -d  --no-deps ${service_name}
+        ${DOCKER_COMPOSE_HOME}/bin/docker-compose -f docker-compose-prod.yml up --force-recreate -d  --no-deps ${service_name}
 fi
 echo "build and up service container [over]"
 
@@ -32,4 +32,4 @@ docker image prune -f
 echo "prune none images [over]"
 
 sleep 10s
-${dockerComposeHome}/docker-compose -f docker-compose-prod.yml ps
+${DOCKER_COMPOSE_HOME}/bin/docker-compose -f docker-compose-prod.yml ps
