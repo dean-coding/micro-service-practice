@@ -1,0 +1,71 @@
+version: '3.1'
+
+services:
+  ## 注册中心
+  eureka-registry:
+    image: eureka-registry:1.0.1
+    container_name: eureka-registry
+    #容器down掉后，会自动重启
+#    restart: always
+    #挂载一个目录,格式: 宿主机目录:容器内目录
+    volumes:
+      - /opt/data/logs:/logs
+    environment:
+      TZ: Asia/Shanghai
+      MYSQL_HOST: hgdb
+      MYSQL_DATABASE: prod
+      MYSQL_USERNAME: root
+      MYSQL_PASSWORD: root
+      SPRING_PROFILES_ACTIVE: prod
+    ports:
+      - "8761:8761"
+
+  ## 生产者资源服务
+  producer-service:
+    image: producer-service:1.0.1
+    container_name: producer-service
+    volumes:
+      - /opt/data/logs:/logs
+    environment:
+      TZ: Asia/Shanghai
+      SPRING_PROFILES_ACTIVE: prod
+      REGISTY_HOST: eureka-registry
+    ports:
+      - "8881:8881"
+#    depends_on:
+#      - eureka-registry
+#    links:
+#      - eureka-registry:eureka-registry
+
+  ## 网关服务
+  gateway-service:
+    image: gateway-service:1.0.1
+    container_name: gateway-service
+    volumes:
+      - /opt/data/logs:/logs
+    environment:
+      TZ: Asia/Shanghai
+      SPRING_PROFILES_ACTIVE: prod
+      REGISTY_HOST: eureka-registry
+    ports:
+      - "9999:9999"
+#    depends_on:
+#      - eureka-registry
+#    links:
+#      - eureka-registry:eureka-registry
+  ## 消费者资源服务
+  consumer-service:
+    image: consumer-service:1.0.1
+    container_name: consumer-service
+    volumes:
+      - /opt/data/logs:/logs
+    environment:
+      TZ: Asia/Shanghai
+      SPRING_PROFILES_ACTIVE: prod
+      REGISTY_HOST: eureka-registry
+    ports:
+      - "8882:8882"
+#    depends_on:
+#      - eureka-registry
+#    links:
+#      - eureka-registry:eureka-registry
