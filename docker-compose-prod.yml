@@ -32,10 +32,10 @@ services:
       REGISTY_HOST: eureka-registry
     ports:
       - "8881:8881"
-    depends_on:
-      - eureka-registry
-    links:
-      - eureka-registry:eureka-registry
+#    depends_on:
+#      - eureka-registry
+#    links:
+#      - eureka-registry:eureka-registry
 
   ## 网关服务
   gateway-service:
@@ -49,10 +49,10 @@ services:
       REGISTY_HOST: eureka-registry
     ports:
       - "9999:9999"
-    depends_on:
-      - eureka-registry
-    links:
-      - eureka-registry:eureka-registry
+#    depends_on:
+#      - eureka-registry
+#    links:
+#      - eureka-registry:eureka-registry
   ## 消费者资源服务
   consumer-service:
     image: consumer-service:1.0.1
@@ -65,7 +65,7 @@ services:
       REGISTY_HOST: eureka-registry
     ports:
       - "8882:8882"
-    depends_on:
-      - eureka-registry
-    links:
-      - eureka-registry:eureka-registry
+#    depends_on:
+#      - eureka-registry
+#    links:
+#      - eureka-registry:eureka-registry
