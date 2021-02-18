@@ -3,12 +3,12 @@ node {
    def service_name
    def dockerComposeHome
    def dockerHome
+    mvnHome = '/usr/share/maven'
+     dockerComposeHome = '/usr/local'
+     dockerHome = '/usr/bin'
+     service_name = params.service_name
    environment {
     EXE_DEV = "dev"
-     mvnHome = '/usr/share/maven'
-      dockerComposeHome = '/usr/local'
-      dockerHome = '/usr/bin'
-      service_name = params.service_name
    }
    stage('获取源码') {
      // get source code from git* repo
