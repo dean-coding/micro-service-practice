@@ -24,13 +24,6 @@ node {
      sh "'${mvnHome}/bin/mvn' -pl ${service_name} -am dockerfile:build"
    }
    stage('构建容器') {
-     sh "'${dockerHome}/docker' stop ${service_name}"
-     sh "'${dockerHome}/docker' rm -f ${service_name}"
-     sh "'${dockerComposeHome}/bin/docker-compose' -f docker-compose-prod.yml up -d --no-deps ${service_name}"
-     echo "prune none images [start]"
-     sh "'${dockerHome}/docker' image prune -f"
-     echo "prune none images [over]"
-     echo "build and up service container [over]"
-     sh "'${dockerComposeHome}/bin/docker-compose' -f docker-compose-prod.yml ps"
+     sh "./devops/build-container.sh -s ${service_name}"
    }
 }
