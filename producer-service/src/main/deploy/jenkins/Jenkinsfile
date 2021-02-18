@@ -27,7 +27,7 @@ node {
      sh "'${dockerHome}/docker' stop ${service_name}"
      sh "sleep 3s"
      sh "'${dockerHome}/docker' rm -f ${service_name}"
-     sh "'${dockerComposeHome}/bin/docker-compose' -f docker-compose-prod.yml up --no-deps --force-recreate -d ${service_name}"
+     sh "'${dockerComposeHome}/bin/docker-compose' -f docker-compose-prod.yml up -d --no-deps ${service_name}"
      echo "prune none images [start]"
      sh "'${dockerHome}/docker' image prune -f"
      echo "prune none images [over]"
