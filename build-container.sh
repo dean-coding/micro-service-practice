@@ -14,7 +14,7 @@ do
         ;;
     esac
 done
-dockerComposeHome = '/usr/local'
+dockerComposeHome='/usr/local'
 
 echo "build and up service container [start]"
 if [ -z "${service_name}" ];
