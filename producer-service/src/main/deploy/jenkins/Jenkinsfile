@@ -24,6 +24,6 @@ node {
      sh "'${mvnHome}/bin/mvn' -pl ${service_name} -am dockerfile:build"
    }
    stage('构建容器') {
-     sh "./build-container.sh -s ${service_name}"
+     sh "`pwd`/build-container.sh -s ${service_name}"
    }
 }
