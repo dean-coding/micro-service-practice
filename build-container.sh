@@ -1,4 +1,7 @@
 ## bash
+OLD_BUILD_ID=$BUILD_ID
+echo $OLD_BUILD_ID
+BUILD_ID=DONTKILLME
 
 usage(){
    echo "Usage: `basename $0` [-s <service_name[string]>]"
