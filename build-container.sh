@@ -18,11 +18,11 @@ DOCKER_COMPOSE_HOME='/usr/local'
 echo "build and up service[${service_name}] container [start]"
  if [ -z "${service_name}" ];
     then
-        ${DOCKER_COMPOSE_HOME}/bin/docker-compose -f docker-compose-prod.yml up --force-recreate -d
+        ${DOCKER_COMPOSE_HOME}/bin/docker-compose -f docker-compose-prod.yml up
     else
         docker stop ${service_name}
         docker rm -f ${service_name}
-        ${DOCKER_COMPOSE_HOME}/bin/docker-compose -f docker-compose-prod.yml up --force-recreate -d  --no-deps ${service_name}
+        ${DOCKER_COMPOSE_HOME}/bin/docker-compose -f docker-compose-prod.yml up -d ${service_name}
 fi
 echo "build and up service[${service_name}] container [over]"
 

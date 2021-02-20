@@ -20,24 +20,6 @@ services:
     ports:
       - "8761:8761"
 
-  ## 生产者资源服务
-  producer-service:
-    image: producer-service:1.0.1
-    container_name: producer-service
-    volumes:
-      - /opt/data/logs:/logs
-    environment:
-      TZ: Asia/Shanghai
-      SPRING_PROFILES_ACTIVE: prod
-      REGISTY_HOST: registry
-    ports:
-      - "8881:8881"
-#    depends_on:
-#      - eureka-registry
-    # [指定服务名称:别名] 将指定容器连接到当前连接，避免ip方式导致的容器重启动态改变的无法连接情况
-    links:
-      - eureka-registry:registry
-
   ## 网关服务
   gateway-service:
     image: gateway-service:1.0.1
@@ -47,13 +29,33 @@ services:
     environment:
       TZ: Asia/Shanghai
       SPRING_PROFILES_ACTIVE: prod
-      REGISTY_HOST: registry
+      REGISTY_HOST: eureka-registry
     ports:
       - "9999:9999"
-#    depends_on:
-#      - eureka-registry
+    depends_on:
+      - eureka-registry
     links:
-      - eureka-registry:registry
+      - eureka-registry
+
+  ## 生产者资源服务
+  producer-service:
+    image: producer-service:1.0.1
+    container_name: producer-service
+    volumes:
+      - /opt/data/logs:/logs
+    environment:
+      TZ: Asia/Shanghai
+      SPRING_PROFILES_ACTIVE: prod
+      REGISTY_HOST: eureka-registry
+    ports:
+      - "8881:8881"
+    depends_on:
+      - eureka-registry
+    # [指定服务名称:别名] 将指定容器连接到当前连接，避免ip方式导致的容器重启动态改变的无法连接情况
+    links:
+      - eureka-registry
+      - gateway-service
+
   ## 消费者资源服务
   consumer-service:
     image: consumer-service:1.0.1
@@ -63,10 +65,11 @@ services:
     environment:
       TZ: Asia/Shanghai
       SPRING_PROFILES_ACTIVE: prod
-      REGISTY_HOST: registry
+      REGISTY_HOST: eureka-registry
     ports:
       - "8882:8882"
-#    depends_on:
-#      - eureka-registry
+    depends_on:
+      - eureka-registry
     links:
-      - eureka-registry:registry
+      - eureka-registry
+      - gateway-service
