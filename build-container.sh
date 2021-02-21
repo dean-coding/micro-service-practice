@@ -15,16 +15,24 @@ do
 done
 DOCKER_COMPOSE_HOME='/usr/local'
 
-echo "build and up service[${service_name}] container [start]"
  if [ -z "${service_name}" ];
     then
+        echo "build and up service containers [start]"
         ${DOCKER_COMPOSE_HOME}/bin/docker-compose -f docker-compose-prod.yml up
+        echo "build and up service containers [start]"
     else
+        echo "stop container ${service_name} [start]"
         docker stop ${service_name}
+        echo "stop container ${service_name} [over]"
+
+        echo "remove container ${service_name} [start]"
         docker rm -f ${service_name}
+        echo "remove container ${service_name} [over]"
+
+        echo "build and up service[${service_name}] container [start]"
         ${DOCKER_COMPOSE_HOME}/bin/docker-compose -f docker-compose-prod.yml up -d ${service_name}
+        echo "build and up service[${service_name}] container [over]"
 fi
-echo "build and up service[${service_name}] container [over]"
 
 echo "prune none images [start]"
 docker image prune -f
