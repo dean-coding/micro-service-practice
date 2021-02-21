@@ -15,6 +15,7 @@ node {
       dockerComposeHome = '/usr/local'
       dockerHome = '/usr/bin'
       service_name = params.service_name
+      echo "ready deploy project: ${service_name}"
    }
    stage('打包编译') {
      // Run the maven build
