@@ -23,6 +23,12 @@ DOCKER_COMPOSE_HOME='/usr/local'
     else
         echo "stop container ${service_name} [start]"
         docker stop ${service_name}
+        exitCode=$?
+
+        # 如果导入失败，提醒只发送一封邮件
+        if [[ "${exitCode}" -ne "0" ]]; then
+           echo "WARN: stop ${service_name} FAILED"
+        fi
         echo "stop container ${service_name} [over]"
 
         echo "remove container ${service_name} [start]"
