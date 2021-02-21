@@ -21,7 +21,8 @@ node {
      sh "'${mvnHome}/bin/mvn' clean package -Dmaven.test.skip -pl ${service_name} -am"
    }
    stage('构建镜像') {
-     sh "'${mvnHome}/bin/mvn' -pl ${service_name} -am dockerfile:build"
+     // sh "'${mvnHome}/bin/mvn' -pl ${service_name} -am dockerfile:build"
+     sh "sh `pwd`/build-image.sh -s ${service_name}"
    }
    stage('构建容器') {
      sh "sh `pwd`/build-container.sh -s ${service_name}"
