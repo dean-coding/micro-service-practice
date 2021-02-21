@@ -19,6 +19,8 @@ services:
       SPRING_PROFILES_ACTIVE: prod
     ports:
       - "8761:8761"
+    networks:
+      - dn-docker-net
 
   ## 网关服务
   gateway-service:
@@ -36,6 +38,8 @@ services:
       - eureka-registry
     links:
       - eureka-registry
+    networks:
+      - dn-docker-net
 
   ## 生产者资源服务
   producer-service:
@@ -55,6 +59,8 @@ services:
     links:
       - eureka-registry
       - gateway-service
+    networks:
+      - dn-docker-net
 
   ## 消费者资源服务
   consumer-service:
@@ -73,3 +79,9 @@ services:
     links:
       - eureka-registry
       - gateway-service
+    networks:
+      - dn-docker-net
+
+networks:
+  dn-docker-net:
+      driver: bridge
