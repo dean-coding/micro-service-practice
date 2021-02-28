@@ -11,7 +11,7 @@ node {
       checkout([$class: 'GitSCM', branches: [[name: params.BRANCH]], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/dean-coding/micro-service-practice.git']]])
       // Get the Maven tool.
       // ** NOTE: This 'M3' Maven tool must be configured in the global configuration.
-      mvnHome = '/usr/share/maven'
+      mvnHome = '/usr/local/apache-maven-3.6.3'
       dockerComposeHome = '/usr/local'
       dockerHome = '/usr/bin'
       service_name = params.service_name
