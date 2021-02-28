@@ -25,14 +25,14 @@ spring:
             - Path=/consumer/**
 eureka:
   client:
-    registry-fetch-interval-seconds: 5 # 客户端拉取服务注册信息间隔（缺省为30s） 对于api-gateway，如果要迅速获取服务注册状态，可以缩小该值，比如5秒。
+    registry-fetch-interval-seconds: 30 # 客户端拉取服务注册信息间隔（缺省为30s） 对于api-gateway，如果要迅速获取服务注册状态，可以缩小该值，比如5秒。
     serviceUrl:
       defaultZone: http://${REGISTY_HOST:127.0.0.1}:8761/eureka/
   instance:
     hostname: gateway
     preferIpAddress: true
-    lease-renewal-interval-in-seconds: 5      # 心跳时间(client发送到server端)，即服务续约间隔时间（缺省为30s）
-    lease-expiration-duration-in-seconds: 15  # 发呆时间(server判断移除client的时长)，即服务续约到期时间（缺省为90s）
+    lease-renewal-interval-in-seconds: 30      # 心跳时间(client发送到server端)，即服务续约间隔时间（缺省为30s）
+    lease-expiration-duration-in-seconds: 90  # 发呆时间(server判断移除client的时长)，即服务续约到期时间（缺省为90s）
 
 ## 启用 {@link org.springframework.cloud.gateway.actuate.GatewayControllerEndpoint}
 management:
